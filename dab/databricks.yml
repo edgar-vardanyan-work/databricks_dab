@@ -6,13 +6,20 @@ bundle:
 
 include:
   - resources/*.yml
+  - clusters/*.yml
 
 # Variable declarations. These variables are assigned in the dev/prod targets below.
-variables:
+variables: 
   catalog:
     description: The catalog to use
   schema:
     description: The schema to use
+  dab_notebook:
+    description: The path to the dab notebook
+    default: ../notebooks/dab.ipynb
+  partition_date:
+    description: The partition date to use for the dab notebook
+    default: "2026-06-17"
 
 targets:
   dev:
@@ -27,6 +34,7 @@ targets:
     variables:
       catalog: dbx_dev_ws
       schema: ${workspace.current_user.short_name}
+      dab_notebook: ../notebooks/hello.ipynb
     presets:
       artifacts_dynamic_version: true
   prod:
@@ -34,10 +42,13 @@ targets:
     workspace:
       host: https://adb-7405616057825245.5.azuredatabricks.net
       # We explicitly deploy to /Workspace/Users/edgar_vardanyan@epam.com to make sure we only have a single copy.
-      root_path: /Workspace/Users/edgar_vardanyan@epam.com/.bundle/${bundle.name}/${bundle.target}
+      # root_path: /Workspace/Users/edgar_vardanyan@epam.com/.bundle/${bundle.name}/${bundle.target}
+      root_path: /${bundle.name}
     variables:
       catalog: dbx_dev_ws
       schema: prod
+      dab_notebook: ../notebooks/helloprod.ipynb
     permissions:
       - user_name: edgar_vardanyan@epam.com
         level: CAN_MANAGE
+      

@@ -1,0 +1,33 @@
+variables:
+  dab_clusters_1:
+    description: "List of DAB clusters to be created in the cluster 1"
+    type: complex
+    default:
+      # cluster_name: dab_cluster_1
+      spark_version: 15.4.x-scala2.12
+      node_type_id: Standard_D4s_v3
+      autoscale:
+        min_workers: 1
+        max_workers: 1
+      spark_conf:
+        spark.speculation: true
+        partitionDate: ${var.partition_date}
+      spark_env_vars:
+        partitionDate: ${var.partition_date}
+  # dab_clusters_2:
+  #   description: "List of DAB clusters to be created in the cluster 2"
+  #   type: complex
+  #   default:
+  #       cluster_name: dab_cluster_2
+  #       spark_version: 15.4.x-scala2.12
+  #       node_type_id: Standard_D4s_v3
+  #       autoscale:
+  #         min_workers: 1
+  #         max_workers: 1
+  #       spark_conf:
+  #         spark.speculation: true
+  # existing_cluster:
+  #   description: "My existing cluster to be used for testing"
+  #   lookup:
+  #     cluster: "shared_cluster"
+

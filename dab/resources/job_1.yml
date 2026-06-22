@@ -1,0 +1,47 @@
+resources:
+  jobs:
+    job_1:
+      name: job_1
+      # trigger:
+      #   periodic:
+      #     interval: 1
+      #     unit: DAYS
+
+      email_notifications:
+        on_start: [edgar_vardanyan@epam.com]
+        on_success: [edgar_vardanyan@epam.com]
+        on_failure: [edgar_vardanyan@epam.com]
+
+      tasks:
+        # - task_key: notebook_task
+        - task_key: job_1_t1
+          job_cluster_key: job_cluster
+          notebook_task:
+            #notebook_path: ../src/notebook.ipynb
+            notebook_path: ${var.dab_notebook}
+            base_parameters:
+              t1_param: "Hello, World!"
+
+        # - task_key: notebook_task_2
+        - task_key: job_2_trigger
+          # job_cluster_key: job_cluster
+          depends_on:
+            - task_key: job_1_t1
+          # job_cluster_key: job_cluster_2
+          # existing_cluster_id: ${var.existing_cluster}
+          # notebook_task:
+          #   notebook_path: ../notebooks/hello.ipynb
+          #   # notebook_path: ${var.dab_notebook}
+          #   base_parameters:
+          #     from_t1: "{{ task_values.t1.from_t1 }}"
+          run_job_task:
+            job_id: ${resources.jobs.job_2.id}
+            job_parameters:
+              # You can also pass parameters to the triggered job. These will be available in the triggered job as {{ var.job_parameters.<param_name> }}.
+              param_from_job_1: "{{ tasks.job_1_t1.values.from_t1 }}"
+
+      job_clusters:
+        - job_cluster_key: job_cluster
+          new_cluster: ${var.dab_clusters_1}
+        # - job_cluster_key: job_cluster_2
+        #   new_cluster: ${var.dab_clusters_2}

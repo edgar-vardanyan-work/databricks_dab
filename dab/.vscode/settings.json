@@ -11,7 +11,16 @@
         "dist": true,
     },
     "files.associations": {
-        "**/.gitkeep": "markdown"
+        "**/.gitkeep": "markdown",
+        "databricks.yml": "yaml",
+        "*.yml": "yaml"
+    },
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/databricks/cli/main/bundle/schema/jsonschema.json": [
+            "databricks.yml",
+            "resources/*.yml",
+            "clusters/*.yml"
+        ]
     },
 
     // Pylance settings (VS Code)
@@ -36,4 +45,5 @@
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnSave": true,
     },
+    "terminal.integrated.fontFamily": "MesloLGS Nerd Font Mono, monospace",
 }
